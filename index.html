@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>5C011.whoami</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;1,400&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #f5f4f2;
+      --surface: #eeede9;
+      --border: #dddbd6;
+      --text: #1c1b19;
+      --muted: #888580;
+      --subtle: #b0ada8;
+    }
+    html.dark {
+      --bg: #131312;
+      --surface: #1c1b19;
+      --border: #2a2926;
+      --text: #e8e5df;
+      --muted: #7a7772;
+      --subtle: #4a4845;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.6;
+      transition: background 0.3s, color 0.3s;
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── NAV ── */
+    nav {
+      padding: 2rem 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .nav-links { display: flex; gap: 1.8rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-size: 0.78rem; color: var(--muted);
+      text-decoration: none; letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    .theme-toggle {
+      background: none; border: 1px solid var(--border);
+      color: var(--muted); cursor: pointer;
+      width: 28px; height: 28px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.8rem; transition: border-color 0.2s, color 0.2s;
+    }
+    .theme-toggle:hover { border-color: var(--muted); color: var(--text); }
+
+    /* ── HERO ── */
+    #hero {
+      padding: 5rem 0 5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .hero-label {
+      font-size: 0.72rem; color: var(--muted);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 1rem;
+    }
+
+    h1 {
+      font-family: 'Lora', serif;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 400; line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin-bottom: 2rem;
+    }
+
+    .hero-links {
+      display: flex;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .link-btn {
+      font-size: 0.8rem; color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.15rem;
+      transition: color 0.2s, border-color 0.2s;
+    }
+    .link-btn:hover { color: var(--text); border-color: var(--text); }
+
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      font-size: 0.68rem; color: var(--muted);
+      background: var(--surface); border: 1px solid var(--border);
+      padding: 0.3rem 0.75rem; border-radius: 2rem;
+    }
+    .badge-dot { width: 5px; height: 5px; border-radius: 50%; background: #6abf8a; }
+
+    /* ── SECTIONS ── */
+    section { padding: 4rem 0; border-bottom: 1px solid var(--border); }
+    section:last-child { border-bottom: none; }
+
+    .section-label {
+      font-size: 0.68rem; color: var(--subtle);
+      letter-spacing: 0.12em; text-transform: uppercase;
+      margin-bottom: 2rem;
+    }
+
+    /* ── ABOUT ── */
+    .about-text p {
+      font-size: 0.95rem; color: var(--muted);
+      line-height: 1.85; margin-bottom: 0.9rem;
+    }
+    .about-text p:last-child { margin-bottom: 0; }
+
+    .interests {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-top: 1.8rem;
+    }
+    .interest-tag {
+      font-size: 0.75rem; color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.3rem 0.8rem;
+    }
+
+    /* ── PROJECTS ── */
+    .project-item {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem 2rem;
+      padding: 1.6rem 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none; color: inherit;
+    }
+    .project-item:last-child { border-bottom: none; }
+
+    .project-main { display: flex; flex-direction: column; gap: 0.4rem; }
+    .project-title {
+      font-family: 'Lora', serif;
+      font-size: 1rem; font-weight: 400;
+      color: var(--text);
+      transition: color 0.2s;
+    }
+    .project-item:hover .project-title { color: var(--muted); }
+    .project-desc {
+      font-size: 0.82rem; color: var(--muted); line-height: 1.65;
+    }
+    .project-meta {
+      display: flex; flex-direction: column;
+      align-items: flex-end; gap: 0.5rem;
+      padding-top: 0.1rem; flex-shrink: 0;
+    }
+    .project-year { font-size: 0.68rem; color: var(--subtle); }
+    .project-tags { display: flex; flex-wrap: wrap; gap: 0.3rem; justify-content: flex-end; }
+    .tag {
+      font-size: 0.62rem; color: var(--subtle);
+      border: 1px solid var(--border); padding: 0.15rem 0.5rem;
+      white-space: nowrap;
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      padding: 2rem 0;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    footer p { font-size: 0.68rem; color: var(--subtle); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 520px) {
+      .project-item { grid-template-columns: 1fr; }
+      .project-meta { align-items: flex-start; flex-direction: row; flex-wrap: wrap; }
+      .project-tags { justify-content: flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span style="font-size:0.72rem; color:var(--subtle); letter-spacing:0.06em;">5C011</span>
+    <ul class="nav-links">
+      <li><a href="#about">À propos</a></li>
+      <li><a href="#projects">Projets</a></li>
+      <li><a href="#forums">Mon forum</a></li>
+
+      <li><button class="theme-toggle" id="themeToggle" title="Thème">☀︎</button></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" style="border-top: 1px solid var(--border);">
+    <p class="hero-label">Student in Cybersecurity @ HELMO — Belgium</p>
+    <h1>Adrien Bastin</h1>
+    <div class="hero-links">
+      <a href="https://github.com/SC0TT0110" target="_blank" class="link-btn">GitHub ↗</a>
+      <a href="https://www.linkedin.com/in/adrien-bastin-51b063254/" target="_blank" class="link-btn">LinkedIn ↗</a>
+      <a href="mailto:votre@email.com" class="link-btn">ad.bastin@student.helmo.be</a>
+      <div class="badge"><div class="badge-dot"></div>Open to opportunities</div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <p class="section-label">À propos</p>
+    <div class="about-text">
+      <p>
+        Actuellement en deuxième année de bachelier en cybersécurité. Ce domaine est avant tout une passion, l'apprentissage n'a aucune limite.
+      </p>
+      <p>
+        Spécialement intéressé par le côté offensif; analyse de malwares, CSIRT, Blue Team. 
+      </p>
+    </div>
+    
+    <div class="interests">
+      <details>
+      <summary class="section-label">Expertises & Passions</summary>
+      <span class="interest-tag">Blue Team</span>
+      <span class="interest-tag">Analyse de malwares</span>
+      <span class="interest-tag">CSIRT / Incident Response</span>
+      <span class="interest-tag">Forensics</span>
+      <span class="interest-tag">TryHackMe</span>
+      <span class="interest-tag">CTF</span>
+      <span class="interest-tag">Electronique</span>
+
+      </details>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <p class="section-label">Projets</p>
+
+      <!-- PROJECTS 
+<a href="https://github.com/votre_pseudo/projet-1" target="_blank" class="project-item"> </a>--> 
+      <div class="project-main">
+        <span class="project-title">Administration d'un Home-Lab</span>
+        <span class="project-desc">Conception d'un réseau segmenté, déploiement de solutions locales et mise en place d'une supervision (monitoring) des machines de test.</span>
+      </div>
+      <div class="project-meta">
+        <span class="project-year">Depuis Août 2025</span>
+        <div class="project-tags"><span class="tag">Linux</span><span class="tag">Réseau</span><span class="tag">Admin</span><span class="tag">Proxmox</span><span class="tag">Wazuh</span></div>
+      </div>
+
+
+
+  </section>
+  
+  <footer>
+    <p>© 2025 Adrien Bastin</p>
+    <p>Bachelier en cybersécurité</p>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById('themeToggle');
+    const html = document.documentElement;
+    if (localStorage.getItem('theme') === 'dark') {
+      html.classList.add('dark'); toggle.textContent = '☾';
+    }
+    toggle.addEventListener('click', () => {
+      html.classList.toggle('dark');
+      const dark = html.classList.contains('dark');
+      toggle.textContent = dark ? '☾' : '☀︎';
+      localStorage.setItem('theme', dark ? 'dark' : 'light');
+    });
+  </script>
+
+</body>
+</html>
